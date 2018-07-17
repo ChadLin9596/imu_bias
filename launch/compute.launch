@@ -1,8 +1,6 @@
 <launch>
-   <node pkg="ncrl_imu_bias" name="ncrl_imu_bias" type="compute_imu_bias" output="screen" >
+   <node pkg="ncrl_imu_bias" name="compute_imu_bias" type="compute_imu_bias" output="screen" >
      <param name="n" value="801" />
      <param name="topic_imu" value="/mavros/imu/data" />
-     <!--param name="topic_mocap" value="/vrpn_client_node/RigidBody1/pose" /-->
-     <!--param name="topic_force" value="/output" /-->
    </node>
 </launch>

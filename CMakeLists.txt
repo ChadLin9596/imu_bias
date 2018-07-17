@@ -131,22 +131,17 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
- add_executable(compute_imu_bias src/compute_imu_bias.cpp)
-add_dependencies(compute_imu_bias ${PROJECT_NAME}_gencfg)
-## Rename C++ executable without prefix
-## The above recommended prefix causes long target names, the following renames the
-## target back to the shorter version for ease of user use
-## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
-# set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
+add_executable(compute_imu_bias src/compute_imu_bias.cpp)
+add_dependencies(compute_imu_bias ${PROJECT_NAME})
+target_link_libraries(compute_imu_bias ${catkin_LIBRARIES})
 
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-## Specify libraries to link a library or executable target against
- target_link_libraries(compute_imu_bias
-   ${catkin_LIBRARIES}
- )
+add_executable(imucalibrate src/imucalibrate.cpp)
+add_dependencies(imucalibrate ${PROJECT_NAME})
+target_link_libraries(imucalibrate ${catkin_LIBRARIES})
 
+add_executable(imucal src/imucal.cpp)
+add_dependencies(imucal ${PROJECT_NAME})
+target_link_libraries(imucal ${catkin_LIBRARIES})
 #############
 ## Install ##
 #############
