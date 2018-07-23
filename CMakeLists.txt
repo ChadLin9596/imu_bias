@@ -1,16 +1,22 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(ncrl_imu_bias)
+project(ncrl_sensor_cal)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  roscpp std_msgs sensor_msgs #UKF
+    roscpp
+    std_msgs
+    sensor_msgs
+    geometry_msgs
+    nav_msgs
+    tf
+    gazebo_ros
 )
-
+find_package(gazebo REQUIRED)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -101,10 +107,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+  #INCLUDE_DIRS include
 #  LIBRARIES imu_bias
-#  CATKIN_DEPENDS roscpp std_msgs sensor_msgs
-#  DEPENDS system_lib
+  #CATKIN_DEPENDS roscpp std_msgs sensor_msgs geometry_msgs nav_msgs tf gazebo_ros
+  #DEPENDS gazebo
 )
 
 ###########
@@ -113,9 +119,12 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
+link_directories(${GAZEBO_LIBRARY_DIRS})
+
 include_directories(
-# include
+ include
   ${catkin_INCLUDE_DIRS}
+  ${GAZEBO_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -131,9 +140,17 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
+add_executable(compute_gyo_bias src/compute_gyo_bias.cpp)
+add_dependencies(compute_gyo_bias ${PROJECT_NAME})
+target_link_libraries(compute_gyo_bias ${catkin_LIBRARIES})
+
 add_executable(compute_imu_bias src/compute_imu_bias.cpp)
 add_dependencies(compute_imu_bias ${PROJECT_NAME})
 target_link_libraries(compute_imu_bias ${catkin_LIBRARIES})
+
+add_executable(compute_mag_bias src/compute_mag_bias.cpp)
+add_dependencies(compute_mag_bias ${PROJECT_NAME})
+target_link_libraries(compute_mag_bias ${catkin_LIBRARIES})
 
 add_executable(imucalibrate src/imucalibrate.cpp)
 add_dependencies(imucalibrate ${PROJECT_NAME})
@@ -176,6 +193,9 @@ target_link_libraries(imucal ${catkin_LIBRARIES})
 #   # myfile2
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 # )
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
 
 #############
 ## Testing ##

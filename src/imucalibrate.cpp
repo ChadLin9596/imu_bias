@@ -153,7 +153,7 @@ int main (int argc , char **argv)
       tf::Quaternion orientation;
       tf::quaternionMsgToTF(imu_data.orientation, orientation);
       tf::Matrix3x3(orientation).getRPY(roll, pitch, yaw);
-      printf("before roll : %f \t pitch : %f \t yaw : %f\n",roll*180/M_PI,pitch*180/M_PI,yaw*180/M_PI);
+      //printf("before roll : %f \t pitch : %f \t yaw : %f\n",roll*180/M_PI,pitch*180/M_PI,yaw*180/M_PI);
 
       // declare magnetic_field
       float mag_x = mag_data.magnetic_field.x;
@@ -165,9 +165,9 @@ int main (int argc , char **argv)
       double yh = mag_y * cos(roll) + mag_z * sin(roll);
       yaw = -std::atan2(yh,xh);
       printf("after roll : %f \t pitch : %f \t yaw : %f\n",roll*180/M_PI,pitch*180/M_PI,yaw*180/M_PI);
-      euler_angle.x = roll;
-      euler_angle.y = pitch;
-      euler_angle.z = yaw;
+      euler_angle.x = roll*180/M_PI;
+      euler_angle.y = pitch*180/M_PI;
+      euler_angle.z = yaw*180/M_PI;
       // transfer euler angle to quaternion
       tf::Quaternion q = tf::createQuaternionFromRPY(roll, pitch, yaw);
       tf::quaternionTFToMsg(q,quat);

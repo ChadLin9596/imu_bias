@@ -1,6 +1,8 @@
 <launch>
-   <node pkg="ncrl_imu_bias" name="compute_imu_bias" type="compute_imu_bias" output="screen" >
-     <param name="n" value="801" />
-     <param name="topic_imu" value="/mavros/imu/data" />
+   <node pkg="ncrl_sensor_cal" name="compute_imu_bias" type="compute_imu_bias" output="screen" >
+     <param name="n1" value="801" />
+     <param name="n2" value="801" />
+     <param name="topic_sensor1" value="/mavros/imu/data_raw" />
+     <param name="topic_sensor2" value="/mavros/imu/mag" />
    </node>
 </launch>
