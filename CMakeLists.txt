@@ -159,6 +159,10 @@ target_link_libraries(imucalibrate ${catkin_LIBRARIES})
 add_executable(imucal src/imucal.cpp)
 add_dependencies(imucal ${PROJECT_NAME})
 target_link_libraries(imucal ${catkin_LIBRARIES})
+
+add_executable(ncrl_test src/ncrl_test.cpp)
+add_dependencies(ncrl_test ${PROJECT_NAME})
+target_link_libraries(ncrl_test ${catkin_LIBRARIES})
 #############
 ## Install ##
 #############

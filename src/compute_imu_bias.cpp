@@ -198,7 +198,7 @@ int main (int argc , char **argv)
   // declare publisher
   imu_cal_pub = nh.advertise<sensor_msgs::Imu> ("/mavros/imu/calib",1);           // publish imu calib
   mag_cal_pub = nh.advertise<sensor_msgs::MagneticField> ("/mavros/imu/magcal",1);// publish mag calib
-  rpy_cal_pub = nh.advertise<geometry_msgs::Vector3> ("mavros/imu/rpy",1);        // publish rpy result
+  rpy_cal_pub = nh.advertise<geometry_msgs::Vector3> ("/mavros/imu/rpy",1);        // publish rpy result
 
   ros::Rate loop_rate(50);
 
